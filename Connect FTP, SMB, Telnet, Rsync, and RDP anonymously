@@ -1,0 +1,127 @@
+🔍 Anonymous Access to Network Services
+
+This guide explains how to check and connect **anonymously** to common network services during CTFs, penetration testing, or red teaming.
+
+---
+
+## 📁 FTP (Port 21)
+
+Try connecting anonymously with username `anonymous`.
+
+### Manual:
+
+ftp <ip>
+```
+Login:
+```
+Name: anonymous
+Password: <any string or blank>
+```
+
+### Scripted:
+```bash
+ftp -n <ip>
+```
+Then:
+```
+user anonymous ""
+```
+
+---
+
+## 📂 SMB (Ports 139, 445)
+
+### List SMB Shares Anonymously:
+```bash
+smbclient -L //<ip> -N
+```
+
+### Connect to Share:
+```bash
+smbclient //<ip>/sharename -N
+```
+
+### Enumerate with enum4linux:
+```bash
+enum4linux -a <ip>
+```
+
+---
+
+## 🖥️ Telnet (Port 23)
+
+Try connecting (if open):
+
+```bash
+telnet <ip>
+```
+
+> Use default credentials or brute-force if login is required.
+
+---
+
+## 🔄 Rsync (Port 873)
+
+### List Available Modules:
+```bash
+rsync rsync://<ip>/
+```
+
+### Download from a Module:
+```bash
+rsync -av rsync://<ip>/module_name .
+```
+
+---
+
+## 🧑‍💻 RDP (Port 3389)
+
+RDP usually **requires credentials**, but you can test info leakage or brute-force.
+
+### Check RDP Info:
+```bash
+nmap -p 3389 --script rdp-ntlm-info <ip>
+```
+
+### Connect with Credentials:
+```bash
+xfreerdp /v:<ip> /u:<username> /p:<password>
+```
+
+---
+
+## 🔧 Useful Nmap Scripts
+
+Scan for anonymous access & service info:
+```bash
+nmap --script ftp-anon,ftp-bounce,smb-enum-shares,smb-enum-users -p 21,445 <ip>
+```
+
+---
+
+## 🚀 Tips
+- Try default creds: `admin:admin`, `guest:guest`, `root:toor`, etc.
+- Use brute-force tools like:
+  - `hydra`
+  - `ncrack`
+  - `medusa`
+
+---
+
+## 📚 License
+
+This guide is meant for educational and ethical hacking purposes only. 🚨  
+Always have **permission** before scanning or accessing any system.
+
+---
+
+## 👨‍💻 Author
+
+Samrat Vakta  
+📌 [LinkedIn](https://linkedin.com/in/samratvakta) | 🛡️ [Blog](https://medium.com/@samratvakta)
+
+```
+
+---
+
+You can copy-paste this into a file named `README.md` in your GitHub repo. Want me to generate a `GitHub repo` structure or a script that automates all these tests too?
